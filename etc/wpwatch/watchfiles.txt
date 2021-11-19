@@ -1,0 +1,9 @@
+/var/www/www.netzpolitik.org/htdocs/
+/var/www/www.netzpolitik.org/htdocs/wp-includes
+/var/www/www.netzpolitik.org/htdocs/wp-admin
+@/var/www/www.netzpolitik.org/htdocs/wp-content
+/var/www/www.netzpolitik.org/htdocs/wp-content/plugins
+/var/www/www.netzpolitik.org/htdocs/wp-content/themes
+/var/www/www.netzpolitik.org/htdocs/wp-content/extensions
+@/var/www/www.netzpolitik.org/htdocs/wp-upload
+@/var/www/www.netzpolitik.org/htdocs/wp-content/cache
