@@ -6,7 +6,8 @@ HOSTNAME=`hostname`
 
 #inotifywait -r -m --exclude '\.(jpg|jpeg|png|pdf|swp|swx)' --exclude '.git'  -e close_write,moved_to,create,delete --timefmt '%Y:%M%D-%H:%M' --format '%T %w %e %f' /var/www/www.netzpolitik.org/htdocs |
 
-inotifywait -r -m --fromfile /etc/wpwatch/files --exclude '.git'  -e close_write,moved_to,create,delete --timefmt '%Y:%M%D-%H:%M' --format '%T %w %e %f'  /var/www/www.netzpolitik.org/htdocs |
+inotifywait -d -r -m --fromfile /etc/wpwatch/files --exclude '.git'  -e close_write,moved_to,create,delete --timefmt '%Y:%M%D-%H:%M' --format '%T %w %e %f' -o /var/log/wpwatch.log /var/www/www.netzpolitik.org/htdocs
+tail -f /var/log/wpwatch.log |
 while IFS= read -r events; do
   echo "$events" | mailx admin@netzpolitik.org -a "FROM:mwa@netzpolitik.org" -a "SUBJECT:!WPALARM!$HOSTNAME"
 done
