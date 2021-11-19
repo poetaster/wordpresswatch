@@ -23,6 +23,7 @@ FILES=/etc/wpwatch/files
 DAEMON=/usr/local/bin/wpwatch
 PIDFILE=/var/run/wpwatchd.pid
 SCRIPTNAME=/etc/init.d/"$NAME"
+EXTRA_OPTS=&
 
 test -f $DAEMON || exit 0
 
