@@ -1,10 +1,12 @@
 #!/usr/bin/bash
+# This script uses inotifywait to watch for changes wordpress files
 
-# This script uses inotifywait to watch for changes to .php files
 DATE=`/bin/date`
+HOSTNAME=`hostname`
 
 #inotifywait -r -m --exclude '\.(jpg|jpeg|png|pdf|swp|swx)' --exclude '.git'  -e close_write,moved_to,create,delete --timefmt '%Y:%M%D-%H:%M' --format '%T %w %e %f' /var/www/www.netzpolitik.org/htdocs |
-inotifywait -r -m --fromfile watchfiles.txt --exclude '.git'  -e close_write,moved_to,create,delete --timefmt '%Y:%M%D-%H:%M' --format '%T %w %e %f' /var/www/www.netzpolitik.org/htdocs |
+
+inotifywait -r -m --fromfile /etc/wpwatch/watchfiles.txt --exclude '.git'  -e close_write,moved_to,create,delete --timefmt '%Y:%M%D-%H:%M' --format '%T %w %e %f' /var/www/www.netzpolitik.org/htdocs |
 while IFS= read -r events; do
-  echo "$events" | mailx mwa@netzpolitik.org -a "FROM:mwa@netzpolitik.org" -a "SUBJECT:WPALARM!!!DEV2-Test"
+  echo "$events" | mailx admin@netzpolitik.org -a "FROM:mwa@netzpolitik.org" -a "SUBJECT:!WPALARM!$HOSTNAME"
 done
