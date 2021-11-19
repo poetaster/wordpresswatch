@@ -1,53 +1,50 @@
-#!/bin/sh
-# Start/stop the wpwatch daemon.
-#
+#! /bin/sh
 ### BEGIN INIT INFO
-# Provides:          wpwatch
-# Required-Start:    $network $syslog
+# Provides:          gogs
+# Required-Start:    $syslog $network
 # Required-Stop:     $syslog
-# Should-Start:      
-# Should-Stop:       
+# Should-Start:      mysql postgresql
+# Should-Stop:       mysql postgresql
 # Default-Start:     2 3 4 5
-# Default-Stop:
-# Short-Description: Regular background program processing daemon
-# Description:       wpwatch is a standard UNIX program that runs user-specified 
-#                    programs at periodic scheduled times. vixie wpwatch adds a 
-#                    number of features to the basic UNIX wpwatch, including better
-#                    security and more powerful configuration options.
+# Default-Stop:      0 1 6
+# Short-Description: A self-hosted Git service written in Go.
+# Description:       A self-hosted Git service written in Go.
 ### END INIT INFO
 
-PATH=/bin:/usr/bin:/sbin:/usr/sbin
-DESC="wpwatch daemon"
-NAME=wpwatch
+# Author: Danny Boisvert
+
+# Do NOT "set -e"
+
+# PATH should only include /usr/* if it runs after the mountnfs.sh script
+PATH=/sbin:/usr/sbin:/bin:/usr/bin:/opt/gogs
+DESC="Gogs"
+NAME=gogs
 SERVICEVERBOSE=yes
-PIDFILE=/var/run/wpwatchd.pid
-DAEMON=/usr/local/bin/wpwatch
-PIDFILE=/var/run/wpwatchd.pid
-SCRIPTNAME=/etc/init.d/"$NAME"
-FILES=/etc/wpwatch/files
+PIDFILE=/var/run/$NAME.pid
 
-# Exit if the package is not installed          
-[ -x "$DAEMON" ] || exit 0                      
+SCRIPTNAME=/etc/init.d/$NAME
+WORKINGDIR=/opt/gogs
+DAEMON=$WORKINGDIR/$NAME
+DAEMON_ARGS="web"
+USER=gogs
 
-# Load the VERBOSE setting and other rcS variables                  
-. /lib/init/vars.sh                                                 
-                                                                    
-# Define LSB log_* functions.                                       
+# Read configuration variable file if it is present
+[ -r /etc/default/$NAME ] && . /etc/default/$NAME
+
+# Exit if the package is not installed
+[ -x "$DAEMON" ] || exit 0
+
+# Load the VERBOSE setting and other rcS variables
+. /lib/init/vars.sh
+
+# Define LSB log_* functions.
 # Depend on lsb-base (>= 3.2-14) to ensure that this file is present
-# and status_of_proc is working.                                    
-. /lib/lsb/init-functions                                           
-
-
-# Read configuration variable file if it is present    
-[ -r /etc/default/$NAME ] && . /etc/default/$NAME      
-
-# Exit if the package is not installed          
- [ -x "$DAEMON" ] || exit 0                      
+# and status_of_proc is working.
+. /lib/lsb/init-functions
 
 #
 # Function that starts the daemon/service
 #
-
 do_start()
 {
 	# Return
@@ -83,7 +80,8 @@ do_stop()
 	rm -f $PIDFILE
 	return "$RETVAL"
 }
- 
+
+
 case "$1" in
   start)
 	[ "$SERVICEVERBOSE" != no ] && log_daemon_msg "Starting $DESC" "$NAME"
