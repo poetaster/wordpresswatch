@@ -15,3 +15,18 @@ usr/local/bin/wpwatch - was the original approach which could not easily be used
 Don't forget to:
   * update-rc.d wpwatch defaults
 
+
+  #!/usr/bin/bash
+  # This script uses inotifywait to watch for changes to .php files
+
+
+    inotifywait -r -m --exclude '.*\.(jpg|jpeg|png|pdf)'  -e close_write,moved_to,create,delete --timefmt '%Y:%M%D-%H:%M' --format '%T %w %e %f' /var/www/www.netzpolitik.org/htdocs |
+
+    while IFS= read -r events; do
+
+      echo "$events" | mailx admin@netzpolitik.org -a "FROM:mwa@netzpolitik.org" -a "SUBJECT:WPALARM!!!DEV2-Test"
+
+    done
+
+
+
