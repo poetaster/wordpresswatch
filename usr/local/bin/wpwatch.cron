@@ -1,13 +1,7 @@
 #!/usr/bin/bash
-# This script uses inotifywait to watch for changes wordpress files
-# --exclude '\.(jpg|jpeg|png|pdf|swp|swx)' --exclude '.git' 
+# This script watches inotifywait generated /var/log/wpwatch.log for changes wordpress files
 DATE=`/bin/date`
 HOSTNAME=`hostname`
-# while IFS= read -r events; do
-#for events in `cat /var/log/wpwatch.log`; do
-#  echo "$events" | mailx admin@netzpolitik.org -a "FROM:mwa@netzpolitik.org" -a "SUBJECT:!WPALARM!$HOSTNAME"
-#done
-
 if [[ `wc -w /var/log/wpwatch.log | cut -f 1 -d ' '` > 0 ]] ; then 
   /usr/bin/cat /var/log/wpwatch.log | /usr/bin/mailx admin@netzpolitik.org -a 'FROM:mwa@netzpolitik.org' -a "SUBJECT:!WPALARM!$HOSTNAME"
   # reset log file
