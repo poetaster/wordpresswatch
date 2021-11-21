@@ -7,5 +7,6 @@ if [[ `wc -w /var/log/wpwatch.log | cut -f 1 -d ' '` > 0 ]] ; then
   # reset log file
   /usr/bin/mv /var/log/wpwatch.log "/var/log/wpwatch.log$DATE"
   touch  /var/log/wpwatch.log
+  /usr/sbin/service wpwatch restart
 fi
 exit 0
