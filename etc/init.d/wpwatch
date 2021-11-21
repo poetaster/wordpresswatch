@@ -9,7 +9,7 @@
 # Should-Stop:       
 # Default-Start:     2 3 4 5
 # Default-Stop:
-# Short-Description: Regular background program processing daemon
+# Short-Description: inotify to watch wordpress installs for file changes.
 # Description:       wpwatch is a simple daemon using inotify to watch
 #                    directories for changes to files. these are logged to a file.
 #                    wpwatch daemon is packaged with a cron to check the log
