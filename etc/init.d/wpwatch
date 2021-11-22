@@ -24,15 +24,11 @@ DESC="wpwatch daemon"
 NAME=wpwatch
 SERVICEVERBOSE=yes
 USER=root
-
 WORKINGDIR=/usr/local/bin
-
 PIDFILE=/var/run/wpwatchd.pid
 DAEMON=/usr/bin/inotifywait
 
 SCRIPTNAME=/etc/init.d/"$NAME"
-
-DAEMON_ARGS="-d -r -m -o /var/log/wpwatch.log --fromfile /etc/wpwatch/files --exclude '.git'  -e close_write,moved_to,create,delete --timefmt '%Y/%M/%D-%H:%M' --format '%T %w %e %f' /var/www/www.netzpolitik.org/htdocs "
 
 # Exit if the package is not installed          
 [ -x "$DAEMON" ] || exit 0                      
@@ -51,6 +47,9 @@ DAEMON_ARGS="-d -r -m -o /var/log/wpwatch.log --fromfile /etc/wpwatch/files --ex
 
 # Exit if the package is not installed          
  [ -x "$DAEMON" ] || exit 0                      
+
+# assemble the complete arguments list
+DAEMON_ARGS="-d -r -m -o $LOG_FILE --fromfile $FROMFILES --exclude '.git'  -e close_write,moved_to,create,delete --timefmt '%Y/%M/%D-%H:%M' --format '%T %w %e %f' $BASE_DIR"
 
 #
 # Function that starts the daemon/service
