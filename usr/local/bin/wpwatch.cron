@@ -2,11 +2,17 @@
 # This script watches inotifywait generated /var/log/wpwatch.log for changes wordpress files
 DATE=`/bin/date`
 HOSTNAME=`hostname`
-if [[ `wc -w /var/log/wpwatch.log | cut -f 1 -d ' '` > 0 ]] ; then 
-  /usr/bin/cat /var/log/wpwatch.log | /usr/bin/mailx admin@netzpolitik.org -a 'FROM:mwa@netzpolitik.org' -a "SUBJECT:!WPALARM!$HOSTNAME"
+
+# Read configuration variable file if it is present    
+[ -r /etc/default/$NAME ] && . /etc/default/$NAME      
+
+if [[ `wc -w $LOG_FILE | cut -f 1 -d ' '` > 0 ]] ; then 
+  # if the log file is not empty, send it to mail
+  /usr/bin/cat $LOG_FILE | /usr/bin/mailx $MAIL_TO -a "FROM:$MAIL_FROM" -a "SUBJECT:!WPALARM!$HOSTNAME"
+  # copy log file
+  /usr/bin/mv $LOG_FILE "$LOG_FILE$DATE"
   # reset log file
-  /usr/bin/mv /var/log/wpwatch.log "/var/log/wpwatch.log$DATE"
-  touch  /var/log/wpwatch.log
+  touch $LOG_FILE
   /usr/sbin/service wpwatch restart
 fi
 exit 0

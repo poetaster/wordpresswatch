@@ -1,3 +1,5 @@
 LOG_FILE=/var/log/wpwatch.log
 FROMFILES=/etc/wpwatch/files
 BASE_DIR=/var/www/www.netzpolitik.org/htdocs
+MAIL_FROM=mwa@netzpolitik.org
+MAIL_TO=admin@netzpolitik.org
