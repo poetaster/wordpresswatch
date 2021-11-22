@@ -2,6 +2,8 @@
 
 an init script, cron.d entry, cron processing script and confgs using the inotifywait daemon to watch a wordpress installi
 
+  * etc/default/wpwatch 
+      * - contains default config values
   * etc/wpwatch/files 
       * - contains a list of directories to recursiely check and those to skip
   * etc/init.d/wpwatch 
