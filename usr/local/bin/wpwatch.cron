@@ -2,7 +2,7 @@
 # This script watches inotifywait generated /var/log/wpwatch.log for changes wordpress files
 DATE=`/bin/date`
 HOSTNAME=`hostname`
-
+NAME=wpwatch
 # Read configuration variable file if it is present    
 [ -r /etc/default/$NAME ] && . /etc/default/$NAME      
 
